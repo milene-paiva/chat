@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    border: 0;
+  }
+    
+      main {
+        display: flex;
+        flex-direction: row;
+        background-image: url(img/bg-chat.jpg);
+     
+      
+      }
+  
+      .contatos{
+    
+        height: 100%;
+         width: 40%;
+         margin-top: 10px;
+      
+         background-color: aqua;
+        
+      }
+  
+      
+      
+  
+      .mensagem-input{
+      margin-top: 100%;  
+      width: 250px;
+      
+  
+      }
+      
+  
+      .chat{
+        margin-left: 25%;
+        width: 50%;
+  height: 600px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    background-color: rgba(0, 0, 0, 0.449) ;
+      }
