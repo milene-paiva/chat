@@ -1,30 +1,27 @@
-// Importando o módulo 'express' e atribuindo-o à constante 'express'
-const express = require('express');
-// Criando uma instância do aplicativo express
+const express = require("express");
+const path = require("path");
+
 const app = express();
-// Importando o módulo 'http' e criando um servidor com ele, atribuindo-o à constante 'http'
-const http = require('http').createServer(app);
-// Importando o módulo 'socket.io' e passando o servidor 'http' como parâmetro, atribuindo-o à constante 'io'
-const io = require('socket.io')(http);
+const server = require("http").createServer(app);
 
-// Configurar o servidor para servir arquivos estáticos
-app.use(express.static('public'));
+const io = require("socket.io")(server);
 
-// Rota para a página inicial
-app.get('/', (req, res) => res.sendFile(__dirname + '/public/index.html'));
+app.use(express.static(path.join(__dirname + "/public")));
 
-// Evento para quando o cliente se conecta ao servidor via Socket.io
-io.on('connection', (socket) => {
-  console.log('Usuário conectado');
+io.on("connection", function (socket) {
+  socket.on("newuser", function (username) {
+    socket.broadcast.emit("update", username + " entrou na conversa");
+  });
 
-  // Evento para quando o cliente envia uma mensagem via Socket.io
-  socket.on('chat message', (data) => io.emit('chat message', data));
+  socket.on("exituser", function (username) {
+    socket.broadcast.emit("update", username + " saiu da conversa");
+  });
 
-  // Evento para quando o cliente se desconecta do servidor via Socket.io
-  socket.on('disconnect', () => console.log('Usuário desconectado'));
+  socket.on("chat", function (message) {
+    socket.broadcast.emit("chat", message);
+  });
 });
 
-// Inicia o servidor na porta 3000
-http.listen(3000, () => {
+server.listen(3000, () => {
   console.log(`Servidor rodando na porta 3000 - Link http://localhost:3000`);
 });
