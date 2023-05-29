@@ -57,7 +57,7 @@
             el.innerHTML = `
             <div>
                   <div class="name">Você</div>              
-                  <div class="text">${message.text}</div>              
+                  <div class="text">${escapeHTML(message.text)}</div>              
             </div>
             `;
             messageContainer.appendChild(el);
@@ -69,7 +69,7 @@
             el.innerHTML = `
             <div>
                   <div class="name">${message.username}</div>              
-                  <div class="text">${message.text}</div>              
+                  <div class="text">${escapeHTML(message.text)}</div>              
             </div>
             `;
             messageContainer.appendChild(el);
@@ -87,3 +87,20 @@
     }
 
 })();
+
+function escapeHTML(text) {
+    return text.replace(/[&<>"']/g, function (match) {
+        switch (match) {
+            case "&":
+                return "&amp;";
+            case "<":
+                return "&lt;";
+            case ">":
+                return "&gt;";
+            case "\"":
+                return "&quot;";
+            case "'":
+                return "&#039;";
+        }
+    });
+}
